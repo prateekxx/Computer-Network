@@ -7,14 +7,11 @@ public class Client {
    public static void main(String[] args) {
 
       Socket client = null;
-      String host = args[0];
-      // String host = "localhost";
-
-      int port = Integer.parseInt(args[1]);
+      // String host = args[0];
+      String host = "localhost";
 
       try {
-         client = new Socket(host, port);// connection
-
+         client = new Socket(host, 1234);// connection
          // Set up streams for server I/O
          InputStream inFromServer = client.getInputStream();
          DataInputStream input = new DataInputStream(inFromServer);
@@ -44,7 +41,6 @@ public class Client {
             } else {
                // send the numbers
                output.writeInt(service);
-
             }
             System.out.println(input.readUTF());
 
