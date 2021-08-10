@@ -5,6 +5,7 @@ public class Server {
    private ServerSocket serverSocket;
 
    public Server(int port) throws IOException {
+      System.out.println("Server Initialized");
       serverSocket = new ServerSocket(port);
       // serverSocket.setSoTimeout(1000000);
    }
@@ -12,7 +13,6 @@ public class Server {
    public static void main(String[] args) {
       int port = Integer.parseInt(args[0]);
       try {
-         // ? do this in a seperate process?
          Server s = new Server(port);
          s.run();
       } catch (IOException e) {
@@ -21,7 +21,10 @@ public class Server {
    }
 
    public void run() {
+      int service;
 
+      int input1 = 0;
+      int input2 = 0;
       while (true) {
 
          try {
@@ -35,54 +38,55 @@ public class Server {
             DataInputStream input = new DataInputStream(server.getInputStream());
             DataOutputStream output = new DataOutputStream(server.getOutputStream());
 
-            // initial interaction ** send menu
-            output.writeUTF("\n\nSERVER>\n" + menu());
+            // initial interaction ;send menu
+            output.writeUTF("\n\nSERVER\n" + menu());
 
-            int service = input.readInt();
-            int input1 = input.readInt();
-            int input2 = input.readInt();
-
-            System.out.println("Client Selected " + service);
-            System.out.println("Gaining Input from Client");
-            System.out.println("Processing...");
+            service = input.readInt();
+            if (service > 1 && service < 6) {
+               input1 = input.readInt();
+               input2 = input.readInt();
+            }
 
             do {
-
+               System.out.println("Client Selected " + service);
+               System.out.println("Gaining Input from Client");
+               System.out.println("Processing...");
                // ** evaluate request
 
                if (service == 0) {
                   break; // from do while
                } else if (service == 1) {
 
-                  output.writeUTF("\n\nSERVER>\n" + menu());
+                  output.writeUTF("\n\nSERVER Responded\n" + menu());
 
                } else if (service == 2) {
 
-                  output.writeUTF("SERVER>\n\t " + add(input1, input2));
+                  output.writeUTF("SERVER Responded\nAnswer : " + add(input1, input2));
 
                } else if (service == 3) {
 
-                  output.writeUTF("SERVER>\n\t " + diff(input1, input2));
+                  output.writeUTF("SERVER Responded\nAnswer : " + diff(input1, input2));
 
                } else if (service == 4) {
 
-                  output.writeUTF("SERVER>\n\t " + mult(input1, input2));
+                  output.writeUTF("SERVER Responded\nAnswer : " + mult(input1, input2));
 
                } else if (service == 5) {
 
-                  output.writeUTF("SERVER>\n\t " + qout(input1, input2));
+                  output.writeUTF("SERVER Responded\nAnswer : " + qout(input1, input2));
 
                } else {
-                  output.writeUTF("SERVER>\n\t " + "invalid choice");
+                  output.writeUTF("SERVER Responded\nAnswer : " + "invalid choice");
                }
-
+               // ** end of evaluate request
+               System.out.println("Respond Sent to the Client");
                service = input.readInt();
                input1 = input.readInt();
                input2 = input.readInt();
 
             } while (service != 0);
 
-            output.writeUTF("SERVER>\n\t " + "Thank you for connecting to " + server.getLocalSocketAddress());
+            output.writeUTF("Client Disconnect\n\t " + "Thank you for connecting to " + server.getLocalSocketAddress());
 
             server.close();
 
@@ -112,6 +116,10 @@ public class Server {
    }
 
    private double qout(int a, int b) {
+      if (b == 0) {
+         System.out.println("Error : Division by 0 \n");
+         return -1;
+      }
       return (double) a / b;
    }
 }
