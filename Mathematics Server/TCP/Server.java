@@ -11,7 +11,7 @@ public class Server {
    }
 
    public static void main(String[] args) {
-      int port = Integer.parseInt(args[0]);
+      int port = 1234;
       try {
          Server s = new Server(port);
          s.run();
@@ -72,17 +72,22 @@ public class Server {
                   output.writeUTF("SERVER Responded\nAnswer : " + mult(input1, input2));
 
                } else if (service == 5) {
-
-                  output.writeUTF("SERVER Responded\nAnswer : " + qout(input1, input2));
+                  double temp = qout(input1, input2);
+                  if (temp == -1)
+                     output.writeUTF("SERVER Responded\nError: Division by 0 not allowed");
+                  else
+                     output.writeUTF("SERVER Responded\nAnswer : " + temp);
 
                } else {
-                  output.writeUTF("SERVER Responded\nAnswer : " + "invalid choice");
+                  output.writeUTF("\nSERVER Responded\n" + "invalid choice");
                }
                // ** end of evaluate request
                System.out.println("Respond Sent to the Client");
                service = input.readInt();
-               input1 = input.readInt();
-               input2 = input.readInt();
+               if (service > 1 && service < 6) {
+                  input1 = input.readInt();
+                  input2 = input.readInt();
+               }
 
             } while (service != 0);
 
