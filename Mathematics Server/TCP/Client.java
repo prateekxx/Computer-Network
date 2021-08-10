@@ -13,7 +13,7 @@ public class Client {
       int port = Integer.parseInt(args[1]);
 
       try {
-         client = new Socket(host, port);//connection
+         client = new Socket(host, port);// connection
 
          // Set up streams for server I/O
          InputStream inFromServer = client.getInputStream();
@@ -27,30 +27,33 @@ public class Client {
 
          System.out.println("Server says " + input.readUTF());
          // System.out.println(input.readUTF());
-         //menu printed
+         // menu printed
          int service, input1, input2;
          do {
             System.out.print("\nservice: ");
             service = userEntry.nextInt();
-            System.out.print("input1 : ");
-            input1 = userEntry.nextInt();
-            System.out.print("input2 : ");
-            input2 = userEntry.nextInt();
+            if (service > 1 && service < 6) {
+               System.out.print("input1 : ");
+               input1 = userEntry.nextInt();
+               System.out.print("input2 : ");
+               input2 = userEntry.nextInt();
 
-            // send the numbers
-            output.writeInt(service);
-            output.writeInt(input1);
-            output.writeInt(input2);
+               output.writeInt(service);
+               output.writeInt(input1);
+               output.writeInt(input2);
+            } else {
+               // send the numbers
+               output.writeInt(service);
 
-            // System.out.println("\nSERVER> " + input.readUTF());
-
+            }
             System.out.println(input.readUTF());
 
          } while (service != 0);
          userEntry.close();
       } catch (IOException e) {
          e.printStackTrace();
-      } catch (NoSuchElementException ne) { // This exception may be raised when the server closes connection
+      } catch (NoSuchElementException ne) {
+         // This exception may be raised when the server closes connection
          System.out.println("Connection closed");
       } finally {
          try {
