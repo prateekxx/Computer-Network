@@ -19,24 +19,18 @@ class ClientUDP {
             req[1] = 2;// first number
             req[2] = 3;// second number
 
-            // byte[] buf = new byte[1024];
-            // buf = integersToBytes(req);
-            // DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
-            // socket.send(packet);
-            // socket.receive(packet);
-            // System.out.println("Received: " + new String(packet.getData()));
 
             byte[] buffer = integersToBytes(req);
             DatagramPacket request = new DatagramPacket(buffer, buffer.length, address, port);
             socket.send(request);// send to server
 
-            byte[] buff = new byte[1024];
+            byte[] buff = new byte[1024];//to store data received from server
             DatagramPacket response = new DatagramPacket(buff, buff.length);
             socket.receive(response);
             // int received = ByteBuffer.wrap(buff).getInt();
             String received = new String(buff, 0, response.getLength());
 
-            System.out.println(received);
+            System.out.println(received);//first time menu
 
             do {
                 System.out.print("\nservice: ");
