@@ -1,0 +1,24 @@
+Start Server
+Client run
+Client to be connected in TCP (in UDP commuication is connectionless) with Server
+Server sended response with menu
+client printed menu
+Repeat {
+    Input - Client from console (Service, num1, num2)
+    send it to client ( UDP process / TCP process )
+
+    server recieved inputs from client
+    server processed
+
+    server send response ( UDP process / TCP process )
+}
+client chose 0
+socket is closed ( teardown )
+client program completed..
+Server is n 24/7
+
+TCP vs UDP
+What is datagram packet??
+TCP/IP vs OSI
+socket vs packet
+system calls

@@ -24,11 +24,11 @@ class ServerUDP {
     }
 
     private void service() throws IOException, InterruptedException {
-        byte[] buff = new byte[1024];
+        byte[] buff = new byte[1024];//data received from client
         DatagramPacket request = new DatagramPacket(buff, buff.length);// requested by client
         socket.receive(request);
 
-        byte[] buffe = menu().getBytes();
+        byte[] buffe = menu().getBytes(); // data to be sended to client
         InetAddress clientAddress = request.getAddress();
         int clientPort = request.getPort();
 
